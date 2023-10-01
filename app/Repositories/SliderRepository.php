@@ -15,9 +15,11 @@ class SliderRepository extends CoreRepository
 
     public function getItems($perPage = null)
     {
-        $select = '*';
+        $select = ['id', 'title', 'active', 'image'];
 
-       return $this->get($select, $perPage);
+       $result = $this->get($select, $perPage);
+       
+       return $result;
     }
 
     public function saveImage($slider, $file)
@@ -30,17 +32,16 @@ class SliderRepository extends CoreRepository
             $object = new \stdClass;
             $object->mini = $name . '_mini.jpg';
             $object->max = $name . '_max.jpg';
+            $slider->image = json_encode($object);
             
-            $miniWidth = config('settings.slider.mini.width');
-            $miniHeight = config('settings.slider.mini.height');
-            $maxWidth = config('settings.slider.max.width');
-            $maxHeight = config('settings.slider.max.height');
+            $miniWidth = config('settings.sliders.mini.width');
+            $miniHeight = config('settings.sliders.mini.height');
+            $maxWidth = config('settings.sliders.max.width');
+            $maxHeight = config('settings.sliders.max.height');
 
             $image_mini = $this->resizeImage($file, $path, $miniWidth, $miniHeight, $object->mini);
             $image_max = $this->resizeImage($file, $path, $maxWidth, $maxHeight, $object->max);
             
-            $slider->image = json_encode($object);
-
             return $slider;
         }
     }

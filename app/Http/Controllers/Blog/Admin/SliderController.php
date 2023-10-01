@@ -18,6 +18,7 @@ class SliderController extends AdminController
         $this->slider_repository = app(SliderRepository::class);
 
         $this->title = 'Slider';
+        $this->folder = 'sliders';
     }
 
     /**
@@ -29,7 +30,7 @@ class SliderController extends AdminController
         
         $paginator = $this->slider_repository->getItems(10);
         
-        $this->content = view($this->envNameAdmin . '.sliders.index', 
+        $this->content = view(env('THEME') . '.admin.sliders.index', 
             compact('paginator'));
         
             return $this->renderOutput();
@@ -41,7 +42,7 @@ class SliderController extends AdminController
     public function create()
     {
         $this->title .= '::create';
-        $this->content = view($this->envNameAdmin . '.sliders.create');
+        $this->content = view(env('THEME') . '.admin.sliders.create');
         return $this->renderOutput();
     }
 
@@ -81,7 +82,11 @@ class SliderController extends AdminController
      */
     public function edit(Slider $slider)
     {
-        //
+        $this->title .= '::update';
+
+        $this->content = view(env('THEME') . '.admin.sliders.edit', 
+            compact('slider'));
+        return $this->renderOutput();
     }
 
     /**
@@ -89,7 +94,21 @@ class SliderController extends AdminController
      */
     public function update(UpdateSliderRequest $request, Slider $slider)
     {
-        //
+        $data = $request->all();
+        $slider->update($data);
+         
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $this->slider_repository->removeImage($slider, $this->folder);
+            $slider = $this->slider_repository->saveImage($slider, $file);
+        }
+        
+        // set property 'active' 
+        $this->slider_repository->setActive($slider, $data);
+
+        return redirect()
+            ->route('admin.sliders.index')
+            ->with(['success' => 'Successfully updated!']);
     }
 
     /**
@@ -97,6 +116,11 @@ class SliderController extends AdminController
      */
     public function destroy(Slider $slider)
     {
-        //
+        $slider->delete();
+        $this->slider_repository->removeImage($slider, $this->folder);
+
+        return redirect()
+            ->route('admin.sliders.index')
+            ->with(['success' => 'Successfully deleted!']);
     }
 }

@@ -20,9 +20,19 @@ class Slider extends Model
 
     public function getMiniImage()
     {
+        return $this->getImage('mini');
+    }
+
+    public function getMaxImage()
+    {
+        return $this->getImage('max');
+    }
+
+    public function getImage($name)
+    {
         $image = json_decode($this->image);
         if(isset($image)) {
-            return $image->mini;    
+            return $image->$name;    
         }
         return false;
     }

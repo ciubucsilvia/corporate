@@ -12,14 +12,11 @@ abstract class AdminController extends Controller
     
     protected $title;
     protected $content;
-
-    protected $envNameAdmin;
-    
+    protected $folder;
 
     public function __construct()
     {
-        $this->envNameAdmin = env('THEME') . '.' . env('ADMIN');
-        $this->template = $this->envNameAdmin . '.index';  
+        $this->template = env('THEME') . '.admin.index';  
     }
 
     public function renderOutput()
@@ -27,13 +24,13 @@ abstract class AdminController extends Controller
         $this->vars = Arr::add($this->vars, 'title', $this->title);
         $this->vars = Arr::add($this->vars, 'content', $this->content);
 
-        $sidebar = view(env('THEME') . '.' . env('ADMIN') . '.parts.sidebar')->render();
+        $sidebar = view(env('THEME') . '.admin.parts.sidebar')->render();
         $this->vars = Arr::add($this->vars, 'sidebar', $sidebar);
 
-        $navbar = view(env('THEME') . '.' . env('ADMIN') . '.parts.navbar')->render();
+        $navbar = view(env('THEME') . '.admin.parts.navbar')->render();
         $this->vars = Arr::add($this->vars, 'navbar', $navbar);
 
-        $footer = view(env('THEME') . '.' . env('ADMIN') . '.parts.footer')->render();
+        $footer = view(env('THEME') . '.admin.parts.footer')->render();
         $this->vars = Arr::add($this->vars, 'footer', $footer);
 
         return view($this->template)->with($this->vars);

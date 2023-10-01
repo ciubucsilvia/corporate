@@ -54,7 +54,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        @include(env('THEME') . '.' . env('ADMIN') . '.parts.messages')
+        @include(env('THEME') . '.admin.parts.messages')
 
         @yield('content')
       </div><!-- /.container-fluid -->

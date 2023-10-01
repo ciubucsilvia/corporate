@@ -13,7 +13,7 @@ abstract class BaseController extends Controller
 
     public function __construct()
     {
-
+        
     }
 
     public function renderOutput()
@@ -22,9 +22,6 @@ abstract class BaseController extends Controller
 
         $navigation = view(env('THEME') . '.navigation');
         $this->vars = Arr::add($this->vars, 'navigation', $navigation);
-
-        $slider = view(env('THEME') . '.slider');
-        $this->vars = Arr::add($this->vars, 'slider', $slider);
 
         $footer = view(env('THEME') . '.footer');
         $this->vars = Arr::add($this->vars, 'footer', $footer);

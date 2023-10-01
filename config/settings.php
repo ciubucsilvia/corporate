@@ -1,6 +1,6 @@
 <?php
     return [
-        'slider' => [
+        'sliders' => [
             'max' => [
                 'width'  => 1200,
                 'height' => 400

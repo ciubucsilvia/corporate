@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Image;
+use Illuminate\Support\Facades\File;
 
 abstract class CoreRepository
 {
@@ -24,9 +25,13 @@ abstract class CoreRepository
     {
         $result = $this->startConditions()
             ->select($select)
-            ->simplePaginate($perPage);
+            ->orderBy('created_at', 'DESC');
         
-        return $result;
+        if($perPage) {
+            return $result->simplePaginate($perPage);
+        } else {
+            return $result->get();
+        }
     }
 
     protected function getPublicPath($folder)
@@ -55,6 +60,18 @@ abstract class CoreRepository
             $model->active = false;
         }
         return $model->save();
+    }
+
+    public function removeImage($model, $folder)
+    {
+        $path = $this->getPublicPath($folder);
+        $images = json_decode($model->image);
+
+        foreach($images as $image){
+            if(File::exists($path . '/' . $image)) {
+                File::delete($path . '/' . $image);
+            }
+        }
     }
 }
 ?>
