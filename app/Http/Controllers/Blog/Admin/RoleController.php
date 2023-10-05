@@ -58,10 +58,6 @@ class RoleController extends AdminController
      */
     public function store(StoreRoleRequest $request)
     {
-        if(!$this->user->hasPermissionTo('Create Role')){
-            abort(403);
-        }
-
         $role = Role::create($request->all());
 
         $permissionsNames = $request->input('permissions');
@@ -105,10 +101,6 @@ class RoleController extends AdminController
      */
     public function update(UpdateRoleRequest $request, string $id)
     {
-        if(!$this->user->hasPermissionTo('Update Role')){
-            abort(403);
-        }
-
         $role = Role::find($id);
         if($role) {
             $role->update($request->all());

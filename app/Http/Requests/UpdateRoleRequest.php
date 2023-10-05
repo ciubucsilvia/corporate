@@ -12,7 +12,7 @@ class UpdateRoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Auth::user()->hasPermissionTo('Update Role');
     }
 
     /**

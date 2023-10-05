@@ -82,10 +82,6 @@ class UserController extends AdminController
      */
     public function update(UpdateUserRequest $request, string $id)
     {
-        if(!$this->user->hasPermissionTo('Update User')){
-            abort(403);
-        }
-
         $user = User::find($id);
 
         if($user) {

@@ -58,10 +58,6 @@ class PermissionController extends AdminController
      */
     public function store(StorePermissionRequest $request)
     {
-        if(!$this->user->hasPermissionTo('Create Permission')){
-            abort(403);
-        }
-
         $permission = Permission::create($request->all());
         $permission->assignRole($request->roles);
 
@@ -101,10 +97,6 @@ class PermissionController extends AdminController
      */
     public function update(UpdatePermissionRequest $request, string $id)
     {
-        if(!$this->user->hasPermissionTo('Update Permission')){
-            abort(403);
-        }
-
         $permission = Permission::find($id);
         
         if($permission) {

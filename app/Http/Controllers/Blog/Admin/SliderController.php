@@ -6,7 +6,6 @@ use App\Models\Slider;
 use App\Http\Requests\StoreSliderRequest;
 use App\Http\Requests\UpdateSliderRequest;
 use App\Repositories\SliderRepository;
-use Illuminate\Support\Facades\Auth;
 
 class SliderController extends AdminController
 {
@@ -46,6 +45,10 @@ class SliderController extends AdminController
      */
     public function create()
     {
+        if(!$this->user->hasPermissionTo('Create Slider')) {
+            abort(403);
+        }
+
         $this->title .= '::create';
         $this->content = view(env('THEME') . '.admin.sliders.create');
         return $this->renderOutput();
@@ -56,10 +59,6 @@ class SliderController extends AdminController
      */
     public function store(StoreSliderRequest $request)
     {
-        if(!$this->user->hasPermissionTo('Create Slider')) {
-            abort(403);
-        }
-        
         $data = $request->all();
         $slider = Slider::create($data);
         
@@ -90,6 +89,10 @@ class SliderController extends AdminController
      */
     public function edit(Slider $slider)
     {
+        if(!$this->user->hasPermissionTo('Update Slider')) {
+            abort(403);
+        }
+
         $this->title .= '::update';
 
         $this->content = view(env('THEME') . '.admin.sliders.edit', 
@@ -102,10 +105,6 @@ class SliderController extends AdminController
      */
     public function update(UpdateSliderRequest $request, Slider $slider)
     {
-        if(!$this->user->hasPermissionTo('Update Slider')) {
-            abort(403);
-        }
-
         $data = $request->all();
         $slider->update($data);
          
