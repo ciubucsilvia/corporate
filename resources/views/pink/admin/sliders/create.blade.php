@@ -23,7 +23,7 @@
     </div>
 
     <div class="card-footer">
-        {{ Form::submit('Submit', ['class' => 'btn btn-primary']) }}
+        {{ Form::submit('Create', ['class' => 'btn btn-primary']) }}
     </div>
     
 {!! Form::close() !!}

@@ -19,6 +19,12 @@
                 <input type="checkbox" disabled
                 @checked($item->active)>
             </td>
+            <td>
+                {!! Form::open(['route' =>['admin.sliders.destroy', $item->id]]) !!}
+                    @method('DELETE')
+                    {{ Form::submit('Delete', ['class' => 'btn btn-secondary']) }}
+                {!! Form::close() !!}
+            </td>
         </tr>
     @endforeach
 </tbody>

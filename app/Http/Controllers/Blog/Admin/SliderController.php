@@ -6,6 +6,7 @@ use App\Models\Slider;
 use App\Http\Requests\StoreSliderRequest;
 use App\Http\Requests\UpdateSliderRequest;
 use App\Repositories\SliderRepository;
+use Illuminate\Support\Facades\Auth;
 
 class SliderController extends AdminController
 {
@@ -26,6 +27,10 @@ class SliderController extends AdminController
      */
     public function index()
     {
+        if(!$this->user->hasPermissionTo('View Sliders')){
+            abort(403);
+        }
+
         $this->title .= 's';
         
         $paginator = $this->slider_repository->getItems(10);
@@ -51,8 +56,11 @@ class SliderController extends AdminController
      */
     public function store(StoreSliderRequest $request)
     {
+        if(!$this->user->hasPermissionTo('Create Slider')) {
+            abort(403);
+        }
+        
         $data = $request->all();
-   
         $slider = Slider::create($data);
         
         // Save image in folder 'public' and in DB
@@ -94,6 +102,10 @@ class SliderController extends AdminController
      */
     public function update(UpdateSliderRequest $request, Slider $slider)
     {
+        if(!$this->user->hasPermissionTo('Update Slider')) {
+            abort(403);
+        }
+
         $data = $request->all();
         $slider->update($data);
          
@@ -116,6 +128,10 @@ class SliderController extends AdminController
      */
     public function destroy(Slider $slider)
     {
+        if(!$this->user->hasPermissionTo('Delete Slider')) {
+            abort('403');
+        }
+
         $slider->delete();
         $this->slider_repository->removeImage($slider, $this->folder);
 

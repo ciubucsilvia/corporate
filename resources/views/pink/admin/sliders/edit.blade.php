@@ -28,13 +28,7 @@
         <div class="col-md-6">
             {{ Form::submit('Update', ['class' => 'btn btn-primary']) }}
         </div>
-{!! Form::close() !!}
-
-        <div class="col-md-6">
-        {!! Form::open(['route' =>['admin.sliders.destroy', $slider->id]]) !!}
-            @method('DELETE')
-            {{ Form::submit('Delete', ['class' => 'btn btn-secondary']) }}
-        {!! Form::close() !!}
-        </div>
     </div>
+{!! Form::close() !!}
+    
     

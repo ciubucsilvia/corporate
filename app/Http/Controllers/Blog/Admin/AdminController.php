@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 abstract class AdminController extends Controller
 {
@@ -14,13 +15,26 @@ abstract class AdminController extends Controller
     protected $content;
     protected $folder;
 
+    protected $user;
+
     public function __construct()
     {
         $this->template = env('THEME') . '.admin.index';  
+
+        $this->middleware(function ($request, $next) {
+
+            $this->user = Auth::user();
+
+            return $next($request);
+        });
     }
 
     public function renderOutput()
     {
+        if(!$this->user->hasPermissionTo('View Admin')) {
+            abort(403);
+        }
+
         $this->vars = Arr::add($this->vars, 'title', $this->title);
         $this->vars = Arr::add($this->vars, 'content', $this->content);
 
