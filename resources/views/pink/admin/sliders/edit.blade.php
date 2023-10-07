@@ -10,7 +10,6 @@
     <div class="form-group">
         {{ Form::label('image', 'Image') }}
         {{ Form::file('image', old('image'), ['class' => 'form-control']) }}
-        <img src="/{{ env('THEME') }}/images/sliders/{{ $slider->getMiniImage() }}" class="img-thumbnail" alt="...">
     </div>
     
     <div class="form-group">

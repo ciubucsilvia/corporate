@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Blog\Admin\IndexController as AdminIndexController;
 use App\Http\Controllers\Blog\Admin\PermissionController;
+use App\Http\Controllers\Blog\Admin\PortfolioCategoryController as AdminPortfolioCategoryController;
+use App\Http\Controllers\Blog\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Blog\Admin\RoleController;
 use App\Http\Controllers\Blog\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Blog\Admin\UserController;
@@ -23,13 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 // Admin
-// Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
-//     Route::get('/', [AdminIndexController::class, 'index'])
-//         ->name('adminIndex');
-//     Route::resource('sliders', AdminSliderController::class)
-//         ->names('admin.sliders');
-// });
-
 Route::prefix('admin')
     // ->middleware(['auth', 'role:admin'])
     ->middleware(['auth'])
@@ -37,12 +32,16 @@ Route::prefix('admin')
     ->group(function() {
         Route::get('/', [AdminIndexController::class, 'index'])
             ->name('index');
-        Route::resource('sliders', AdminSliderController::class);
-
+        
         Route::resource('users', UserController::class)
             ->only(['index', 'edit', 'update', 'destroy']);
         Route::resource('permissions', PermissionController::class);
         Route::resource('roles', RoleController::class);
+
+        Route::resource('sliders', AdminSliderController::class);
+        
+        Route::resource('portfolio', AdminPortfolioController::class);
+        Route::resource('portfolio-categories', AdminPortfolioCategoryController::class);
 });
 
 Route::get('/dashboard', function () {

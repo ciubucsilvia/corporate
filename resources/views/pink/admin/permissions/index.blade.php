@@ -17,3 +17,7 @@
         </tr>
     @endforeach
 </table>
+
+<div class="card-footer clearfix">
+    {{ $permissions->links() }}    
+</div>

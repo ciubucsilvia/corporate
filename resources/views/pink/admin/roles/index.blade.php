@@ -21,3 +21,7 @@
         </tr>
     @endforeach
 </table>
+
+<div class="card-footer clearfix">
+    {{ $roles->links() }}    
+</div>

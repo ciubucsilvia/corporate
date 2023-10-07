@@ -20,6 +20,24 @@
               </a>
             </li>
           @endcan
+
+          @can('View PortfolioCategories')
+            <li class="nav-item">
+              <a href="{{ route('admin.portfolio-categories.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Categories (portfolio)</p>
+              </a>
+            </li>
+          @endcan
+
+          @can('View Portfolio')
+            <li class="nav-item">
+              <a href="{{ route('admin.portfolio.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Portfolio</p>
+              </a>
+            </li>
+          @endcan
           
         </ul>
       </nav>

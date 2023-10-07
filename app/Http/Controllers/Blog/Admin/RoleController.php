@@ -27,7 +27,8 @@ class RoleController extends AdminController
 
         $this->title .= 's';
 
-        $roles = Role::all();
+        $roles = $this->role_repository
+            ->getItems(config('settings.roles-per-page'));
 
         $this->content = view(env('THEME') . '.admin.roles.index', 
             compact('roles'));
@@ -45,7 +46,7 @@ class RoleController extends AdminController
         }
 
         $this->title .= '::create';
-        $permissions = Permission::all();
+        $permissions = $this->permission_repository->getItems();
 
         $this->content = view(env('THEME') . '.admin.roles.create',
             compact('permissions'));
@@ -88,8 +89,8 @@ class RoleController extends AdminController
         }
 
         $this->title .= '::edit';
-        $role = Role::find($id);
-        $permissions = Permission::all();
+        $role = $this->role_repository->getById($id);
+        $permissions = $this->permission_repository->getItems();
 
         $this->content = view(env('THEME') . '.admin.roles.edit',
             compact('role', 'permissions'));
@@ -101,7 +102,7 @@ class RoleController extends AdminController
      */
     public function update(UpdateRoleRequest $request, string $id)
     {
-        $role = Role::find($id);
+        $role = $this->role_repository->getById($id);
         if($role) {
             $role->update($request->all());
             $role->syncPermissions($request->input('permissions'));
@@ -121,7 +122,7 @@ class RoleController extends AdminController
             abort(403);
         }
 
-        $role = Role::find($id);
+        $role = $this->role_repository->getById($id);
         $role->delete();
         $role->syncPermissions();
 

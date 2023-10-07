@@ -26,7 +26,8 @@ class PermissionController extends AdminController
 
         $this->title .= 's';
 
-        $permissions = Permission::all();
+        $permissions = $this->permission_repository
+            ->getItems(config('settings.permissions-per-page'));
 
         $this->content = view(env('THEME') . '.admin.permissions.index',
             compact('permissions'));
@@ -45,7 +46,7 @@ class PermissionController extends AdminController
 
         $this->title .= '::create';
 
-        $roles = Role::all();
+        $roles = $this->role_repository->getItems();
 
         $this->content = view(env('THEME') . '.admin.permissions.create',
             compact('roles'));
@@ -83,8 +84,8 @@ class PermissionController extends AdminController
             abort(403);
         }
 
-        $permission = Permission::find($id);
-        $roles = Role::all();
+        $permission = $this->permission_repository->getById($id);
+        $roles = $this->role_repository->getItems();
 
         $this->title .= '::edit';
         $this->content = view(env('THEME') . '.admin.permissions.edit', 
@@ -97,7 +98,7 @@ class PermissionController extends AdminController
      */
     public function update(UpdatePermissionRequest $request, string $id)
     {
-        $permission = Permission::find($id);
+        $permission = $this->permission_repository->getById($id);
         
         if($permission) {
             $permission->update($request->all());
@@ -118,7 +119,7 @@ class PermissionController extends AdminController
             abort(403);
         }
 
-        $permission = Permission::find($id);
+        $permission = $this->permission_repository->getById($id);
         $permission->delete();
         $permission->syncRoles();
 

@@ -34,6 +34,20 @@ abstract class CoreRepository
         }
     }
 
+    public function getById($id)
+    {
+        return $this->startConditions()->find($id);
+    }
+
+    public function getForComboBox($column = 'title') 
+    {
+        $result = $this
+            ->startConditions()
+            ->pluck($column, 'id');
+        
+        return $result;
+    }
+
     protected function getPublicPath($folder)
     {
         return public_path() . '/' . env('THEME') . '/images/' . $folder;
@@ -66,12 +80,27 @@ abstract class CoreRepository
     {
         $path = $this->getPublicPath($folder);
         $images = json_decode($model->image);
-
+        
         foreach($images as $image){
-            if(File::exists($path . '/' . $image)) {
-                File::delete($path . '/' . $image);
+            $file = $path . '/' . $image;
+             
+            if(File::exists($file)) {
+                File::delete($file);
             }
         }
+    }
+
+    public function setIsPublished($model, $data)
+    {
+        $model->is_published = isset($data['is_published']) ? true : false;
+        $model->published_at = now();
+        $model->save();
+    }
+
+    public function setUser($model)
+    {
+        $model->user_id = auth()->user()->id;
+        $model->save();
     }
 }
 ?>

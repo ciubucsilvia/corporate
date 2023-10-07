@@ -6,13 +6,18 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Repositories\UserRepository;
 
 class UserController extends AdminController
 {
+    private $user_repsitory;
+
     public function __construct()
     {
         parent::__construct();
         $this->title = 'User';
+
+        $this->user_repository = app(UserRepository::class);
     }
 
     /**
@@ -25,7 +30,8 @@ class UserController extends AdminController
         }
 
         $this->title .= 's';
-        $users = User::all();
+        $users = $this->user_repository
+            ->getItems(config('settings.users-per-page'));
         
         $this->content = view(env('THEME') . '.admin.users.index', 
             compact('users'));
@@ -68,8 +74,8 @@ class UserController extends AdminController
 
         $this->title .= '::edit';
 
-        $user = User::find($id);
-        $roles = Role::all();
+        $user = $this->user_repository->getById($id);
+        $roles = $this->role_repository->getItems();
         
         $this->content = view(env('THEME') . '.admin.users.edit', 
             compact('user', 'roles'));
@@ -82,7 +88,7 @@ class UserController extends AdminController
      */
     public function update(UpdateUserRequest $request, string $id)
     {
-        $user = User::find($id);
+        $user = $this->user_repository->getById($id);
 
         if($user) {
             $user->update($request->all());
@@ -103,7 +109,7 @@ class UserController extends AdminController
             abort(403);
         }
 
-        $user = User::find($id);
+        $user = $this->user_repository->getById($id);
         if($user) {
             $user->delete();
             $user->syncRoles([]);

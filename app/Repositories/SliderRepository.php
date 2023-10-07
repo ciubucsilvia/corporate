@@ -34,13 +34,13 @@ class SliderRepository extends CoreRepository
             $object->max = $name . '_max.jpg';
             $slider->image = json_encode($object);
             
-            $miniWidth = config('settings.sliders.mini.width');
-            $miniHeight = config('settings.sliders.mini.height');
-            $maxWidth = config('settings.sliders.max.width');
-            $maxHeight = config('settings.sliders.max.height');
+            $miniWidth = config('settings.sliders.image.mini.width');
+            $miniHeight = config('settings.sliders.image.mini.height');
+            $this->resizeImage($file, $path, $miniWidth, $miniHeight, $object->mini);
 
-            $image_mini = $this->resizeImage($file, $path, $miniWidth, $miniHeight, $object->mini);
-            $image_max = $this->resizeImage($file, $path, $maxWidth, $maxHeight, $object->max);
+            $maxWidth = config('settings.sliders.image.max.width');
+            $maxHeight = config('settings.sliders.image.max.height');
+            $this->resizeImage($file, $path, $maxWidth, $maxHeight, $object->max);
             
             return $slider;
         }
