@@ -30,4 +30,8 @@
             </tr>
         @endforeach
     </table>
+
+    <div class="card-footer clearfix">
+        {{ $items->links() }}    
+    </div>
 @endif

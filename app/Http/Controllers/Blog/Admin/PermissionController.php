@@ -27,7 +27,7 @@ class PermissionController extends AdminController
         $this->title .= 's';
 
         $permissions = $this->permission_repository
-            ->getItems(config('settings.permissions-per-page'));
+            ->getItems();
 
         $this->content = view(env('THEME') . '.admin.permissions.index',
             compact('permissions'));

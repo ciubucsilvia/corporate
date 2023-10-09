@@ -124,7 +124,7 @@
 				@yield('slider')
 
 				<!-- START PRIMARY -->
-				<div id="primary" class="sidebar-right">
+				<div id="primary" class="sidebar-{{ $bar }}">
 				    <div class="inner group">
 				        <!-- START CONTENT -->
 						@yield('content')

@@ -1,7 +1,7 @@
-@if($items->isNotEmpty())
+@if($sliderItems->isNotEmpty())
 <div id="slider-thumbnails" class="slider thumbnails group inner">
     <div class="showcase group">
-        @foreach($items as $item)
+        @foreach($sliderItems as $item)
             <div class="showcase-slide">
                 <div class="showcase-content">
                     <!-- If the slide contains multiple elements you should wrap them in a div with the class

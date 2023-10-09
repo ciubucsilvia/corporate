@@ -32,7 +32,7 @@ class SliderController extends AdminController
 
         $this->title .= 's';
         
-        $paginator = $this->slider_repository->getItems(10);
+        $paginator = $this->slider_repository->getItems();
         
         $this->content = view(env('THEME') . '.admin.sliders.index', 
             compact('paginator'));

@@ -8,6 +8,8 @@ use App\Http\Controllers\Blog\Admin\RoleController;
 use App\Http\Controllers\Blog\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Blog\Admin\UserController;
 use App\Http\Controllers\Blog\IndexController;
+use App\Http\Controllers\Blog\PortfolioCategoryController;
+use App\Http\Controllers\Blog\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/portfolios', [PortfolioController::class, 'index'])
+    ->name('portfolio.index');
+Route::get('/{slug}', [PortfolioController::class, 'show'])
+    ->name('portfolio.show');
+Route::get('/categories/{slug}', [PortfolioCategoryController::class, 'show'])
+    ->name('portfolioCategory.show');
+
 
 // Admin
 Route::prefix('admin')

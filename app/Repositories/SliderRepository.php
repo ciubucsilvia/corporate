@@ -13,11 +13,11 @@ class SliderRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getItems($perPage = null)
+    public function getSliders($take = null)
     {
-        $select = ['id', 'title', 'active', 'image'];
+       $select = ['id', 'title', 'active', 'image'];
 
-       $result = $this->get($select, $perPage);
+       $result = $this->getItems($take, $select, null, ['active', 1]);
        
        return $result;
     }

@@ -11,11 +11,11 @@ class PortofolioCategoryRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getItems($perPage = null)
-    {
-        $select = ['id', 'title', 'slug', 'description'];
-        $result = $this->get($select, $perPage);
-        return $result;
-    }
+    // public function getItems($perPage = null)
+    // {
+    //     $select = ['id', 'title', 'slug', 'description'];
+    //     $result = $this->get($select, $perPage);
+    //     return $result;
+    // }
 }
 ?>

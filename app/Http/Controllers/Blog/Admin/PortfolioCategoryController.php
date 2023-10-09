@@ -25,7 +25,7 @@ class PortfolioCategoryController extends AdminController
         $this->title = 'Categories (portfolio)';
 
         $items = $this->portfolio_category_repository
-            ->getItems(config('settings.portfolio_categories.categories-per-page'));
+            ->getItems(config('settings.portfolio_categories.categories_per_page'));
 
         $this->content = view(env('THEME') . '.admin.portfolio_categories.index',
             compact('items'));

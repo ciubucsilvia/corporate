@@ -11,25 +11,35 @@ class IndexController extends BaseController
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->slider_repository = app(SliderRepository::class);
+
         $this->template = env('THEME') . '.index';
         $this->title = 'Pink Rio | A strong, powerful and multiporpose Theme';
+        $this->bar = 'right';
     }
 
     public function index()
     {
-        $items = $this->getItemsSlider();
-        
-        $slider = view(env('THEME') . '.slider', compact('items'));
-        $this->vars = Arr::add($this->vars, 'slider', $slider);
+        $sliderItems = $this->slider_repository
+            ->getSliders(config('settings.home_sliders_count'));
+        $this->slider = view(env('THEME') . '.slider', compact('sliderItems'));
+
+        $items = $this->portfolio_repository
+            ->getPortfolio(config('settings.home_portfolio_count'));
+        $this->content = view(env('THEME') . '.content_home',
+            compact('items'));
 
         return $this->renderOutput();
     }
 
-    protected function getItemsSlider()
-    {
-        $items = $this->slider_repository->getItems();
+    // protected function getItemsSlider()
+    // {
+    //     $select = ['id', 'title', 'active', 'image'];
+
+    //     $items = $this->slider_repository->getItems();
         
-        return $items->where('active', 1);
-    }
+    //     return $items->where('active', 1);
+    // }
 }

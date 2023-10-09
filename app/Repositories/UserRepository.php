@@ -11,9 +11,9 @@ class UserRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getItems($perPage = null)
-    {
-        return $this->get('*', $perPage);
-    }
+    // public function getItems($perPage = null)
+    // {
+    //     return $this->get('*', $perPage);
+    // }
 }
 ?>

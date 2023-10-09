@@ -12,11 +12,18 @@ class PortfolioRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getItems($perPage = null)
-    {
-        $select = '*';
+    // public function getItems($perPage = null)
+    // {
+    //     return $this->get($select, null, $perPage);
+    // }
 
-        return $this->get($select, $perPage);
+    public function getPortfolio($take = null)
+    {
+       $select = ['id', 'title', 'slug', 'image', 'category_id', 'content'];
+        
+       $result = $this->getItems($take, $select);
+       
+       return $result;
     }
 
     public function saveImage($portfolio, $file)

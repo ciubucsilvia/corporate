@@ -32,7 +32,7 @@ class PortfolioCategory extends Model
 
     public function portfolios()
     {
-        return $this->belongsTo(Portfolio::class);
+        return $this->hasMany(Portfolio::class, 'category_id', 'id');
     }
 
 }

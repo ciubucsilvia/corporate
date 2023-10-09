@@ -22,5 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(PermissionSeeder::class);
+
+        \App\Models\Slider::factory(20)->create();
+        \App\Models\PortfolioCategory::factory(10)->create();
+        \App\Models\Portfolio::factory(30)->create();
     }
 }

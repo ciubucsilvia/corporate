@@ -21,18 +21,70 @@ abstract class CoreRepository
         return clone $this->model;
     }
 
-    protected function get($select = '*', $perPage = null)
+    // protected function get($select = '*', $take = null, $perPage = null)
+    // {
+    //     $result = $this->startConditions()
+    //         ->select($select)
+    //         ->orderBy('created_at', 'DESC');
+    //     if($take) {
+    //         $result->take($take);
+    //     }
+
+    //     if($perPage) {
+    //         return $result->simplePaginate($perPage);
+    //     } else {
+    //         return $result->get();
+    //     }
+    // }
+    public function getItems($take = null, $select = '*', $perPage = null, $where = null)
     {
         $result = $this->startConditions()
             ->select($select)
             ->orderBy('created_at', 'DESC');
         
-        if($perPage) {
-            return $result->simplePaginate($perPage);
-        } else {
-            return $result->get();
+        if($where) {
+            $result->where($where[0], $where[1]);
         }
+        
+        if($take) {
+            $result->take($take);
+        }
+
+        if($perPage) {
+            return $result->paginate(config('settings.paginate'));
+        } 
+            
+        return $result->get();
     }
+
+    public function getBySlug($slug)
+    {
+        $result = $this->startConditions()
+            ->where('slug', $slug)
+            ->first();
+        
+        return $result;
+    }
+
+    // protected function check($result){
+		
+	// 	if($result->isEmpty()){
+	// 		return FALSE;
+	// 	}
+
+    //     if(isset($item->image)) {
+    //         $result->transform(function($item, $key){
+    //             if(is_string($item->image)
+    //                 && is_object(json_decode($item->image))
+    //                 && (json_last_error() == JSON_ERROR_NONE)
+    //                 ){
+    //                 $item->image = json_decode($item->image, true);
+    //             }
+    //             return $item;
+    //         });
+    //     }
+	// 	return $result;
+	// }
 
     public function getById($id)
     {

@@ -17,7 +17,8 @@ class PortfolioCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->sentence(rand(1,3), true),
+            'description' => fake()->text(rand(0, 50)),
         ];
     }
 }
