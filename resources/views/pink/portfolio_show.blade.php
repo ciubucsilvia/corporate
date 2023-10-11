@@ -10,7 +10,7 @@
                 
                 <div class="portfolios hentry work group">
                     <div class="work-thumbnail">
-                        <a class="thumb"><img src="{{ env('THEME') }}/images/portfolios/{{ $portfolio->getMaxImage() }}" alt="0081" title="0081" /></a>
+                        <a class="thumb"><img src="{{ asset(env('THEME')) }}/images/portfolios/{{ $portfolio->getMaxImage() }}" alt="0081" title="0081" /></a>
                     </div>
                     <div class="work-description">
                         {{ $portfolio->content }}
@@ -36,7 +36,7 @@
                                 <a class="related_proj related_img" 
                                     href="{{ route('portfolio.show', $project->slug) }}" 
                                     title="{{ $project->title }}">
-                                    <img src="{{ env('THEME') }}/images/portfolios/{{ $project->getMiniImage() }}" alt="0061" title="0061" /></a>
+                                    <img src="{{ asset(env('THEME')) }}/images/portfolios/{{ $project->getMiniImage() }}" alt="0061" title="0061" /></a>
                                 <h4><a href="{{ route('portfolio.show', $project->slug) }}">
                                     {{ $project->title }}</a></h4>
                             </div>

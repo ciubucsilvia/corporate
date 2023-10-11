@@ -24,10 +24,10 @@ class PortfolioFactory extends Factory
         $isPublished = rand(0,1);
 
         return [
-            'title' => fake()->sentence(rand(3,8), true),
+            'title' => fake()->sentence(rand(2,5), true),
             'image' => json_encode($image),
             'category_id' => rand(1, 10),
-            'content' => fake()->text(rand(0, 1000)),
+            'content' => fake()->text(rand(200, 1000)),
             'is_published' => $isPublished,
             'published_at'  => $isPublished 
                 ? fake()->dateTimeBetween('-2 months', now()) 

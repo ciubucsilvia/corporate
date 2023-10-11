@@ -16,7 +16,7 @@ class PortfolioController extends BaseController
      */
     public function index()
     {
-        $portfolios = $this->portfolio_repository->getItems(null, '*', true);
+        $portfolios = $this->portfolio_repository->getPortfolios();
         $this->content = view(env('THEME') . '.portfolios_content', 
             compact('portfolios'));
     
@@ -30,11 +30,20 @@ class PortfolioController extends BaseController
     {
         $portfolio = $this->portfolio_repository->getBySlug($slug);
         $otherProjects = $this->portfolio_repository
-            ->getItems(config('settings.other_projects'));
+            ->getPortfolios(config('settings.other_projects'));
 
         $this->content = view(env('THEME') . '.portfolio_show',
             compact('portfolio', 'otherProjects'));
         
         return $this->renderOutput();
+    }
+
+    public function getPortfolio($take = null)
+    {
+       $select = ['id', 'title', 'slug', 'image', 'category_id', 'content'];
+        
+       $result = $this->getItems($take, $select);
+       
+       return $result;
     }
 }

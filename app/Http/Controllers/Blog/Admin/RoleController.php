@@ -27,8 +27,7 @@ class RoleController extends AdminController
 
         $this->title .= 's';
 
-        $roles = $this->role_repository
-            ->getItems(config('settings.roles-per-page'));
+        $roles = $this->role_repository->getRoles();
 
         $this->content = view(env('THEME') . '.admin.roles.index', 
             compact('roles'));
@@ -46,7 +45,7 @@ class RoleController extends AdminController
         }
 
         $this->title .= '::create';
-        $permissions = $this->permission_repository->getItems();
+        $permissions = $this->permission_repository->getForCheckbox();
 
         $this->content = view(env('THEME') . '.admin.roles.create',
             compact('permissions'));
@@ -90,7 +89,7 @@ class RoleController extends AdminController
 
         $this->title .= '::edit';
         $role = $this->role_repository->getById($id);
-        $permissions = $this->permission_repository->getItems();
+        $permissions = $this->permission_repository->getForCheckbox();
 
         $this->content = view(env('THEME') . '.admin.roles.edit',
             compact('role', 'permissions'));

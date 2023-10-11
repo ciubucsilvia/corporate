@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Image;
 use Illuminate\Support\Facades\File;
+use stdClass;
 
 abstract class CoreRepository
 {
@@ -21,6 +22,7 @@ abstract class CoreRepository
         return clone $this->model;
     }
 
+    // V1
     // protected function get($select = '*', $take = null, $perPage = null)
     // {
     //     $result = $this->startConditions()
@@ -36,25 +38,58 @@ abstract class CoreRepository
     //         return $result->get();
     //     }
     // }
-    public function getItems($take = null, $select = '*', $perPage = null, $where = null)
+    
+    // V2
+    // public function getItems($take = null, $select = '*', $perPage = null, $where = null)
+    // {
+    //     $result = $this->startConditions()
+    //         ->select($select)
+    //         ->orderBy('created_at', 'DESC');
+        
+    //     if($where) {
+    //         $result->where($where[0], $where[1]);
+    //     }
+        
+    //     if($take) {
+    //         $result->take($take);
+    //     }
+
+    //     if($perPage) {
+    //         return $result->paginate(config('settings.paginate'));
+    //     } 
+            
+    //     return $result->get();
+    // }
+
+    // V3
+    public function getItems($attributes)
     {
-        $result = $this->startConditions()
-            ->select($select)
-            ->orderBy('created_at', 'DESC');
-        
-        if($where) {
-            $result->where($where[0], $where[1]);
-        }
-        
-        if($take) {
-            $result->take($take);
+        // Set default parameter
+        if(!isset($attributes->columns)) {
+            $attributes->columns = '*';
         }
 
-        if($perPage) {
-            return $result->paginate(config('settings.paginate'));
-        } 
-            
-        return $result->get();
+        $result = $this
+            ->startConditions()
+            ->orderBy('id', 'DESC')
+            ->select($attributes->columns);
+        
+        if(isset($attributes->where)) {
+            $result->where($attributes->where[0], $attributes->where[1]);
+        }
+
+        if(isset($attributes->take)) {
+            $result->take($attributes->take);
+        }
+
+        if(isset($attributes->with)){
+            $result->with($attributes->with);
+        }
+        if(isset($attributes->perPage)) {
+            return $result->paginate($attributes->perPage);
+        } else {
+            return $result->get();
+        }     
     }
 
     public function getBySlug($slug)
@@ -66,26 +101,6 @@ abstract class CoreRepository
         return $result;
     }
 
-    // protected function check($result){
-		
-	// 	if($result->isEmpty()){
-	// 		return FALSE;
-	// 	}
-
-    //     if(isset($item->image)) {
-    //         $result->transform(function($item, $key){
-    //             if(is_string($item->image)
-    //                 && is_object(json_decode($item->image))
-    //                 && (json_last_error() == JSON_ERROR_NONE)
-    //                 ){
-    //                 $item->image = json_decode($item->image, true);
-    //             }
-    //             return $item;
-    //         });
-    //     }
-	// 	return $result;
-	// }
-
     public function getById($id)
     {
         return $this->startConditions()->find($id);
@@ -96,6 +111,16 @@ abstract class CoreRepository
         $result = $this
             ->startConditions()
             ->pluck($column, 'id');
+        
+        return $result;
+    }
+
+    public function getForCheckbox()
+    {
+        $columns = ['name', 'id'];
+        $attributes = new \stdClass;
+        $attributes->collumns = $columns;
+        $result = $this->getItems($attributes);
         
         return $result;
     }

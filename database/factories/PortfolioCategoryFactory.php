@@ -18,7 +18,7 @@ class PortfolioCategoryFactory extends Factory
     {
         return [
             'title' => fake()->sentence(rand(1,3), true),
-            'description' => fake()->text(rand(0, 50)),
+            'description' => fake()->text(50),
         ];
     }
 }

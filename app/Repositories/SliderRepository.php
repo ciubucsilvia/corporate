@@ -13,13 +13,26 @@ class SliderRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getSliders($take = null)
+    public function getSliders($take = null, $where = null)
     {
-       $select = ['id', 'title', 'active', 'image'];
+        $attributes = new \stdClass;
+        $attributes->columns = [
+            'id', 
+            'title', 
+            'image', 
+            'active'
+        ];
+        if(isset($take)) {
+            $attributes->take = $take;
+        } else {
+            $attributes->perPage = config('settings.paginate');
+        }
 
-       $result = $this->getItems($take, $select, null, ['active', 1]);
-       
-       return $result;
+        if(isset($where)) {
+            $attributes->where = $where;
+        }
+        
+       return $this->getItems($attributes);
     }
 
     public function saveImage($slider, $file)

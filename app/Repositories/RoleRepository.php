@@ -11,9 +11,16 @@ class RoleRepository extends CoreRepository
         return Model::class;
     }
 
-    // public function getItems($perPage = null)
-    // {
-    //     return $this->get('*', $perPage);
-    // }
+    public function getRoles()
+    {
+        $attributes = new \stdClass;
+        $attributes->perPage = config('settings.paginate');
+        $attributes->columns = [
+            'id', 
+            'name'
+        ];
+
+        return $this->getItems($attributes);
+    }
 }
 ?>

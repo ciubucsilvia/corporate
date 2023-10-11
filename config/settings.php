@@ -4,9 +4,7 @@
         'home_portfolio_count' => 3,
         'home_sliders_count'    => 12,
         'other_projects' => 12,
-        // 'roles-per-page' => 20,
-        // 'permissions-per-page' => 20,
-        // 'users-per-page' => 20,
+        'sidebar_articles_count' => 3,
         'sliders' => [
             'image' => [
                 'max' => [
@@ -14,27 +12,34 @@
                     'height' => 400
                 ],
                 'mini' => [
-                    'width'  => 24,
-                    'height' => 24
+                    'width'  => 68,
+                    'height' => 68
+                ]
+            ],
+        ],
+        'articles' => [
+            'image' => [
+                'max' => [
+                    'width'  => 1200,
+                    'height' => 400
+                ],
+                'mini' => [
+                    'width'  => 63,
+                    'height' => 63
                 ]
             ],
         ],
         'portfolio' => [
-            // 'home_portfolio_count' => 8,
-            // 'portfolio_per_page_admin' => 5,
             'image' => [
                 'mini' => [
                     'width'  => 175,
                     'height' => 175
                 ],
                 'max' => [
-                    'width'  => 700,
-                    'height' => 345
+                    'width'  => 816,
+                    'height' => 282
                 ]
             ],    
         ],
-        'portfolio_categories' => [
-            // 'categories_per_page' => 20
-        ]
     ];
 ?>

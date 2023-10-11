@@ -9,7 +9,7 @@
 @endsection
 
 @section('sidebar')
-    {{-- {!! $sidebar !!} --}}
+    {!! $sidebar !!}
 @endsection
 
 @section('content')

@@ -11,9 +11,17 @@ class UserRepository extends CoreRepository
         return Model::class;
     }
 
-    // public function getItems($perPage = null)
-    // {
-    //     return $this->get('*', $perPage);
-    // }
+    public function getUsers()
+    {
+        $attributes = new \stdClass;
+        $attributes->perPage = config('settings.paginate');
+        $attributes->columns = [
+            'id', 
+            'name',
+            'email'
+        ];
+
+        return $this->getItems($attributes);
+    }
 }
 ?>

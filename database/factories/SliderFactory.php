@@ -24,7 +24,7 @@ class SliderFactory extends Factory
         return [
             'title' => fake()->sentence(rand(3,8), true),
             'image' => json_encode($image),
-            'description' => fake()->text(rand(0, 150)),
+            'description' => fake()->text(50),
             'active' => rand(0,1)
         ];
     }

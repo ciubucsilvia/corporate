@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\ArticleRepository;
 use App\Repositories\PortofolioCategoryRepository;
+use App\Repositories\ArticleCategoryRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use Illuminate\Support\Arr;
@@ -21,6 +23,9 @@ abstract class AdminController extends Controller
     protected $user;
 
     protected $portfolio_category_repository;
+    protected $article_category_repository;
+    // protected $article_repository;
+
     protected $permission_repository;
     protected $role_repository;
 
@@ -35,7 +40,10 @@ abstract class AdminController extends Controller
             return $next($request);
         });
 
-        $this->portfolio_category_repository = app(PortofolioCategoryRepository::class);        
+        $this->portfolio_category_repository = app(PortofolioCategoryRepository::class);
+        $this->article_category_repository = app(ArticleCategoryRepository::class);
+        // $this->article_repository = app(ArticleRepository::class);
+
         $this->permission_repository = app(PermissionRepository::class);
         $this->role_repository = app(RoleRepository::class);
     }

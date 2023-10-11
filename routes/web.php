@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Blog\Admin\ArticleCategoryController as AdminArticleCategoryController;
+use App\Http\Controllers\Blog\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Blog\Admin\IndexController as AdminIndexController;
 use App\Http\Controllers\Blog\Admin\PermissionController;
 use App\Http\Controllers\Blog\Admin\PortfolioCategoryController as AdminPortfolioCategoryController;
@@ -7,6 +9,8 @@ use App\Http\Controllers\Blog\Admin\PortfolioController as AdminPortfolioControl
 use App\Http\Controllers\Blog\Admin\RoleController;
 use App\Http\Controllers\Blog\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Blog\Admin\UserController;
+use App\Http\Controllers\Blog\ArticleCategoryController;
+use App\Http\Controllers\Blog\ArticleController;
 use App\Http\Controllers\Blog\IndexController;
 use App\Http\Controllers\Blog\PortfolioCategoryController;
 use App\Http\Controllers\Blog\PortfolioController;
@@ -24,16 +28,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Website 
 Route::get('/', [IndexController::class, 'index'])->name('index');
+
 Route::get('/portfolios', [PortfolioController::class, 'index'])
     ->name('portfolio.index');
-Route::get('/{slug}', [PortfolioController::class, 'show'])
+Route::get('/portfolio/{slug}', [PortfolioController::class, 'show'])
     ->name('portfolio.show');
-Route::get('/categories/{slug}', [PortfolioCategoryController::class, 'show'])
+Route::get('/portfolio-categories/{slug}', [PortfolioCategoryController::class, 'show'])
     ->name('portfolioCategory.show');
 
+Route::get('/articles', [ArticleController::class, 'index'])
+    ->name('articles.index');
+Route::get('/articles/{slug}', [ArticleController::class, 'show'])
+    ->name('articles.show');
+Route::get('/article-categories/{slug}', [ArticleCategoryController::class, 'show'])
+    ->name('articleCategory.show');
 
-// Admin
+
+// Admin Panel
 Route::prefix('admin')
     // ->middleware(['auth', 'role:admin'])
     ->middleware(['auth'])
@@ -51,6 +64,9 @@ Route::prefix('admin')
         
         Route::resource('portfolio', AdminPortfolioController::class);
         Route::resource('portfolio-categories', AdminPortfolioCategoryController::class);
+
+        Route::resource('articles', AdminArticleController::class);
+        Route::resource('article-categories', AdminArticleCategoryController::class);
 });
 
 Route::get('/dashboard', function () {

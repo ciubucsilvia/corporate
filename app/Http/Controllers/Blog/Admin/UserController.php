@@ -30,8 +30,7 @@ class UserController extends AdminController
         }
 
         $this->title .= 's';
-        $users = $this->user_repository
-            ->getItems(config('settings.users-per-page'));
+        $users = $this->user_repository->getUsers();
         
         $this->content = view(env('THEME') . '.admin.users.index', 
             compact('users'));
@@ -75,7 +74,7 @@ class UserController extends AdminController
         $this->title .= '::edit';
 
         $user = $this->user_repository->getById($id);
-        $roles = $this->role_repository->getItems();
+        $roles = $this->role_repository->getForCheckbox();
         
         $this->content = view(env('THEME') . '.admin.users.edit', 
             compact('user', 'roles'));

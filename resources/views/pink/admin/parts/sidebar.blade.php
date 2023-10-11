@@ -30,11 +30,29 @@
             </li>
           @endcan
 
-          @can('View Portfolio')
+          @can('View Portfolios')
             <li class="nav-item">
               <a href="{{ route('admin.portfolio.index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Portfolio</p>
+              </a>
+            </li>
+          @endcan
+
+          @can('View ArticleCategories')
+            <li class="nav-item">
+              <a href="{{ route('admin.article-categories.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Categories (article)</p>
+              </a>
+            </li>
+          @endcan
+
+          @can('View Articles')
+            <li class="nav-item">
+              <a href="{{ route('admin.articles.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Articles</p>
               </a>
             </li>
           @endcan

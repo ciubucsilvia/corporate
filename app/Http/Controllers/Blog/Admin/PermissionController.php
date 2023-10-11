@@ -26,8 +26,7 @@ class PermissionController extends AdminController
 
         $this->title .= 's';
 
-        $permissions = $this->permission_repository
-            ->getItems();
+        $permissions = $this->permission_repository->getPermissions();
 
         $this->content = view(env('THEME') . '.admin.permissions.index',
             compact('permissions'));
@@ -46,7 +45,7 @@ class PermissionController extends AdminController
 
         $this->title .= '::create';
 
-        $roles = $this->role_repository->getItems();
+        $roles = $this->role_repository->getForCheckbox();
 
         $this->content = view(env('THEME') . '.admin.permissions.create',
             compact('roles'));
@@ -85,7 +84,7 @@ class PermissionController extends AdminController
         }
 
         $permission = $this->permission_repository->getById($id);
-        $roles = $this->role_repository->getItems();
+        $roles = $this->role_repository->getForCheckbox();
 
         $this->title .= '::edit';
         $this->content = view(env('THEME') . '.admin.permissions.edit', 

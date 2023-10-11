@@ -25,11 +25,11 @@ class PortfolioController extends AdminController
      */
     public function index()
     {
-        if(!$this->user->hasPermissionTo('View Portfolio')) {
+        if(!$this->user->hasPermissionTo('View Portfolios')) {
             abort('403');
         }
 
-        $items = $this->portfolio_repository->getItems();
+        $items = $this->portfolio_repository->getPortfolios();
         
         $this->content = view(env('THEME') . '.admin.portfolio.index',
             compact('items'));

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
 use App\Repositories\PortfolioRepository;
+use App\Repositories\ArticleRepository;
 
 abstract class BaseController extends Controller
 {
@@ -15,12 +16,15 @@ abstract class BaseController extends Controller
     protected $content = null;
     protected $bar = 'no';
     protected $slider = null;
+    protected $sidebar = null;
 
     protected $portfolio_repository;
+    protected $article_repository;
 
     public function __construct()
     {
         $this->portfolio_repository = app(PortfolioRepository::class);
+        $this->article_repository = app(ArticleRepository::class);
         $this->template = env('THEME') . '.index';
     }
 
@@ -28,6 +32,7 @@ abstract class BaseController extends Controller
     {
         $this->vars = Arr::add($this->vars, 'title', $this->title);
         $this->vars = Arr::add($this->vars, 'bar', $this->bar);
+        $this->vars = Arr::add($this->vars, 'sidebar', $this->sidebar);
         $this->vars = Arr::add($this->vars, 'slider', $this->slider);
         $this->vars = Arr::add($this->vars, 'content', $this->content);
         

@@ -12,18 +12,27 @@ class PortfolioRepository extends CoreRepository
         return Model::class;
     }
 
-    // public function getItems($perPage = null)
-    // {
-    //     return $this->get($select, null, $perPage);
-    // }
-
-    public function getPortfolio($take = null)
+    
+    public function getPortfolios($take = null)
     {
-       $select = ['id', 'title', 'slug', 'image', 'category_id', 'content'];
+        $attributes = new \stdClass;
+
+        $attributes->with = ['category:id,title'];
+        $attributes->columns = [
+            'id', 
+            'title', 
+            'slug', 
+            'image', 
+            'category_id'
+        ];
+
+        if($take) {
+            $attributes->take = $take;
+        } else {
+            $attributes->perPage = config('settings.paginate');
+        }
         
-       $result = $this->getItems($take, $select);
-       
-       return $result;
+       return $this->getItems($attributes);
     }
 
     public function saveImage($portfolio, $file)
