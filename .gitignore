@@ -3,9 +3,12 @@
 /public/build
 /public/hot
 /public/storage
-/public/pink/images/*
-/public/pink/images/*
-/public/pink/images/*
+/public/pink/images/*.png
+/public/pink/images/*.jpg
+/public/pink/images/*.png
+/public/pink/images/*.jpg
+/public/pink/images/*.png
+/public/pink/images/*.jpg
 /storage/*.key
 /vendor
 .env
