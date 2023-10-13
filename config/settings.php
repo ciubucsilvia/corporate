@@ -4,7 +4,9 @@
         'home_portfolio_count' => 3,
         'home_sliders_count'    => 12,
         'other_projects' => 12,
-        'sidebar_articles_count' => 3,
+        'recent_articles' => 3,
+        'recent_comments' => 3,
+        'recent_portfolios' => 3,
         'sliders' => [
             'image' => [
                 'max' => [

@@ -17,7 +17,7 @@ class ArticleRepository extends CoreRepository
     {
         $attributes = new stdClass;
         $attributes->with = [
-            'category:id,title', 
+            'category:id,title,slug', 
             'user:id,name'
         ];
         $attributes->columns = [

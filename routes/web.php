@@ -11,6 +11,8 @@ use App\Http\Controllers\Blog\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Blog\Admin\UserController;
 use App\Http\Controllers\Blog\ArticleCategoryController;
 use App\Http\Controllers\Blog\ArticleController;
+use App\Http\Controllers\Blog\CommentController;
+use App\Http\Controllers\Blog\ContactController;
 use App\Http\Controllers\Blog\IndexController;
 use App\Http\Controllers\Blog\PortfolioCategoryController;
 use App\Http\Controllers\Blog\PortfolioController;
@@ -42,13 +44,14 @@ Route::get('/articles', [ArticleController::class, 'index'])
     ->name('articles.index');
 Route::get('/articles/{slug}', [ArticleController::class, 'show'])
     ->name('articles.show');
+Route::match(['post', 'get'], '/comment', [CommentController::class, 'store'])
+    ->name('comment.store');
 Route::get('/article-categories/{slug}', [ArticleCategoryController::class, 'show'])
     ->name('articleCategory.show');
-
+Route::match(['get', 'post'], '/contact', [ContactController::class, 'index'])->name('contact');
 
 // Admin Panel
 Route::prefix('admin')
-    // ->middleware(['auth', 'role:admin'])
     ->middleware(['auth'])
     ->name('admin.')
     ->group(function() {

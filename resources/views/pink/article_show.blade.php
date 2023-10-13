@@ -17,7 +17,9 @@
         <div class="meta group">
             <p class="author"><span>by <a href="#" title="Posts by {{ $article->user->name }}" rel="author">{{ $article->user->name }}</a></span></p>
             <p class="categories"><span>In: <a href="{{ route('articleCategory.show', $article->category->slug) }}" title="View all posts in {{ $article->category->title }}" rel="category tag">{{ $article->category->title }}</a></span></p>
-            <p class="comments"><span><a href="#comments" title="Comment on This is the title of the first article. Enjoy it.">2 comments</a></span></p>
+            <p class="comments">
+                <span><a href="#comments" title="Comment on This is the title of the first article. Enjoy it.">
+                    {{ $article->getCountComments() }} comments</a></span></p>
         </div>
         <!-- post content -->
         <div class="the-content single group">
@@ -32,70 +34,31 @@
                 <a href="http://yourinspirationtheme.com/demo/pinkrio/2012/09/24/this-is-the-title-of-the-first-article-enjoy-it/" class="socials-small bookmark-small" title="This is the title of the first article. Enjoy it.">bookmark</a>
             </div>
         </div>
-        <p class="tags">Tags: <a href="#" rel="tag">book</a>, <a href="#" rel="tag">css</a>, <a href="#" rel="tag">design</a>, <a href="#" rel="tag">inspiration</a></p>
+        
         <div class="clear"></div>
     </div>
     <!-- START COMMENTS -->
     <div id="comments">
         <h3 id="comments-title">
-            <span>2</span> comments    
+            <span>{{ $article->getCountComments() }}</span> comments    
         </h3>
-        <ol class="commentlist group">
-            <li class="comment even depth-1">
-                <div class="comment-container">
-                    <div class="comment-author vcard">
-                        <img alt="" src="images/avatar/unknow.png" class="avatar" height="75" width="75" />
-                        <cite class="fn">Anonymous</cite>                 
-                    </div>
-                    <!-- .comment-author .vcard -->
-                    <div class="comment-meta commentmetadata">
-                        <div class="intro">
-                            <div class="commentDate">
-                                <a href="#comment-2">
-                                September 24, 2012 at 1:31 pm</a>                        
-                            </div>
-                            <div class="commentNumber">#&nbsp;1</div>
-                        </div>
-                        <div class="comment-body">
-                            <p>Hi all, i’m a guest and this is the guest’s awesome comments template!</p>
-                        </div>
-                        <div class="reply group">
-                            <a class="comment-reply-link" href="#respond" onclick="return addComment.moveForm(&quot;comment-2&quot;, &quot;2&quot;, &quot;respond&quot;, &quot;41&quot;)">Reply</a>                    
-                        </div>
-                        <!-- .reply -->
-                    </div>
-                    <!-- .comment-meta .commentmetadata -->
-                </div>
-                <!-- #comment-##  -->
-            </li>
-            <li class="comment bypostauthor odd">
-                <div class="comment-container">
-                    <div class="comment-author vcard">
-                        <img alt="" src="images/avatar/nicola.jpeg" class="avatar" height="75" width="75" />
-                        <cite class="fn">nicola</cite>                 
-                    </div>
-                    <!-- .comment-author .vcard -->
-                    <div class="comment-meta commentmetadata">
-                        <div class="intro">
-                            <div class="commentDate">
-                                <a href="#">
-                                September 24, 2012 at 1:32 pm</a>                        
-                            </div>
-                            <div class="commentNumber">#&nbsp;2</div>
-                        </div>
-                        <div class="comment-body">
-                            <p>While i’m the author of the post. My comment template is different, something like a “sticky comment”!</p>
-                        </div>
-                        <div class="reply group">
-                            <a class="comment-reply-link" href="#respond" onclick="return addComment.moveForm(&quot;comment-3&quot;, &quot;3&quot;, &quot;respond&quot;, &quot;41&quot;)">Reply</a>                    
-                        </div>
-                        <!-- .reply -->
-                    </div>
-                    <!-- .comment-meta .commentmetadata -->
-                </div>
-                <!-- #comment-##  -->
-            </li>
-        </ol>
+
+        @if(count($article->comments) > 0)
+            
+            <ol class="commentlist group">
+
+            @foreach($article->getCommentsByParent() as $k => $comments)
+                
+                @if($k !== 0)
+                    @break
+                @endif
+
+                @include(env('THEME') . '.comment', ['items'=>$comments])
+
+            @endforeach
+
+            </ol>
+        @endif
         
         <!-- START TRACKBACK & PINGBACK -->
         <h2 id="trackbacks">Trackbacks and pingbacks</h2>
@@ -105,14 +68,21 @@
         <!-- END TRACKBACK & PINGBACK -->								
         <div id="respond">
             <h3 id="reply-title">Leave a <span>Reply</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="#respond" style="display:none;">Cancel reply</a></small></h3>
-            <form action="sendmail.PHP" method="post" id="commentform">
-                <p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" aria-required="true" /></p>
-                <p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="text" value="" size="30" aria-required="true" /></p>
-                <p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
-                <p class="comment-form-comment"><label for="comment">Your comment</label><textarea id="comment" name="comment" cols="45" rows="8"></textarea></p>
+            <form action="{{ route('comment.store') }}" method="post" id="commentform">
+                @if(!Auth::check())
+                    <p class="comment-form-author"><label for="author">Name</label> <input id="name" name="name" type="text" value="" size="30" aria-required="true" /></p>
+                    <p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="text" value="" size="30" aria-required="true" /></p>
+                    <p class="comment-form-url"><label for="url">Website</label><input id="site" name="site" type="text" value="" size="30" /></p>
+                @endif
+                <p class="comment-form-comment"><label for="comment">Your comment</label><textarea id="text" name="text" cols="45" rows="8"></textarea></p>
                 <div class="clear"></div>
                 <p class="form-submit">
-                    <input name="submit" type="submit" id="submit" value="Post Comment" />
+
+                    @csrf
+                    <input id="comment_post_ID" type="hidden" name="comment_post_ID" value="{{ $article->id }}">
+                    <input id="comment_parent" type="hidden" name="comment_parent" value="0">
+
+                    <input type="submit" id="submit" value="Post Comment" />
                 </p>
             </form>
         </div>

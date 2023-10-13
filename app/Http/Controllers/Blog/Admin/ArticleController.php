@@ -9,12 +9,12 @@ use App\Repositories\ArticleRepository;
 
 class ArticleController extends AdminController
 {
-    protected $article_repository;
+    // protected $article_repository;
 
     public function __construct()
     {
         parent::__construct();
-        $this->article_repository = app(ArticleRepository::class);
+        // $this->article_repository = app(ArticleRepository::class);
         $this->title = 'Article';
         $this->folder = 'articles';
     }

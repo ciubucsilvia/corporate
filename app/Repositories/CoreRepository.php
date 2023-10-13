@@ -97,7 +97,7 @@ abstract class CoreRepository
         $result = $this->startConditions()
             ->where('slug', $slug)
             ->first();
-        
+
         return $result;
     }
 

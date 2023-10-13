@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         $this->call(PermissionSeeder::class);
 
-        \App\Models\Slider::factory(20)->create();
-        \App\Models\PortfolioCategory::factory(10)->create();
-        \App\Models\Portfolio::factory(30)->create();
-        \App\Models\ArticleCategory::factory(10)->create();
-        \App\Models\Article::factory(30)->create();
+        $this->call(SliderSeeder::class);
+        $this->call(PortfolioCategorySeeder::class);
+        $this->call(PortfolioSeeder::class);
+        $this->call(ArticleCategorySeeder::class);
+        $this->call(ArticleSeeder::class);
     }
 }

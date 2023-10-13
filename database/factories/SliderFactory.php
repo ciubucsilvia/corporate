@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use stdClass;
+use Illuminate\Support\Facades\File;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Slider>
@@ -31,8 +32,13 @@ class SliderFactory extends Factory
 
     private function makeImage($name)
     {
+        $path = public_path(env('THEME') . '/images/sliders');
+        if(!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+        
         $fakeFileName = fake()->image(
-            public_path(env('THEME') . '/images/sliders'),
+            $path,
             config('settings.sliders.image.' . $name . '.width'),
             config('settings.sliders.image.' . $name . '.height')
         );

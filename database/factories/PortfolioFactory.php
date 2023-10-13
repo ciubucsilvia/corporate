@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use stdClass;
+use Illuminate\Support\Facades\File;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Portfolio>
@@ -38,8 +39,12 @@ class PortfolioFactory extends Factory
 
     private function makeImage($name)
     {
+        $path = public_path(env('THEME') . '/images/portfolios');
+        if(!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
         $fakeFileName = fake()->image(
-            public_path(env('THEME') . '/images/portfolios'),
+            $path,
             config('settings.portfolio.image.' . $name . '.width'),
             config('settings.portfolio.image.' . $name . '.height')
         );

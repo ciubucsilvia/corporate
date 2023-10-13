@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use stdClass;
+use Illuminate\Support\Facades\File;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
@@ -39,8 +40,13 @@ class ArticleFactory extends Factory
 
     private function makeImage($name)
     {
+        $path = public_path(env('THEME') . '/images/articles');
+        if(!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+    
         $fakeFileName = fake()->image(
-            public_path(env('THEME') . '/images/articles'),
+            $path,
             config('settings.articles.image.' . $name . '.width'),
             config('settings.articles.image.' . $name . '.height')
         );

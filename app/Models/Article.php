@@ -49,6 +49,11 @@ class Article extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getMiniImage()
     {
         return $this->getImage('mini');
@@ -89,5 +94,15 @@ class Article extends Model
     public function getLimitText()
     {
         return Str::limit($this->text, 40);
+    }
+
+    public function getCountComments()
+    {
+        return count($this->comments) ? count($this->comments) : 0;
+    }
+
+    public function getCommentsByParent()
+    {
+        return $this->comments->groupBy('parent_id');
     }
 }

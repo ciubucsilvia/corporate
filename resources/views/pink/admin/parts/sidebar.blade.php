@@ -9,55 +9,8 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          @can('View Sliders')
-            <li class="nav-item">
-              <a href="{{ route('admin.sliders.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Sliders</p>
-              </a>
-            </li>
-          @endcan
+      {!! $menuInSidebar->asUl(['class' => 'nav nav-pills nav-sidebar flex-column']) !!}
 
-          @can('View PortfolioCategories')
-            <li class="nav-item">
-              <a href="{{ route('admin.portfolio-categories.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Categories (portfolio)</p>
-              </a>
-            </li>
-          @endcan
-
-          @can('View Portfolios')
-            <li class="nav-item">
-              <a href="{{ route('admin.portfolio.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Portfolio</p>
-              </a>
-            </li>
-          @endcan
-
-          @can('View ArticleCategories')
-            <li class="nav-item">
-              <a href="{{ route('admin.article-categories.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Categories (article)</p>
-              </a>
-            </li>
-          @endcan
-
-          @can('View Articles')
-            <li class="nav-item">
-              <a href="{{ route('admin.articles.index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Articles</p>
-              </a>
-            </li>
-          @endcan
-          
-        </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>

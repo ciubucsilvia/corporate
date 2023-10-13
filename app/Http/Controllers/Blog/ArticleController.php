@@ -19,7 +19,13 @@ class ArticleController extends BaseController
      */
     public function index()
     {
-        //
+        $this->setSidebar();
+
+        $articles = $this->article_repository->getArticles();
+        $this->content = view(env('THEME') . '.articles_content', 
+            compact('articles'));
+    
+        return $this->renderOutput();
     }
 
     /**
@@ -44,16 +50,14 @@ class ArticleController extends BaseController
     public function show(string $slug)
     {
         $article = $this->article_repository->getBySlug($slug);
-        
+        // dd($article->comments);
         if(!$article) {
             abort(404);
         }
         
         $this->title = $article->title;
 
-        $recentPosts = $this->article_repository
-            ->getArticles(config('settings.sidebar_articles_count'), ['is_published', 1]);
-        $this->sidebar = view(env('THEME') . '.sidebar_article', compact('recentPosts'));
+        $this->setSidebar();
 
         $this->content = view(env('THEME') . '.article_show', compact('article'));
         return $this->renderOutput();
@@ -81,5 +85,21 @@ class ArticleController extends BaseController
     public function destroy(string $id)
     {
         //
+    }
+
+    private function setSidebar()
+    {
+        $recentPosts = $this->article_repository
+            ->getArticles(config('settings.recent_articles'), ['is_published', 1]);
+        
+        $comments = $this->comment_repository
+            ->getComments(config('settings.recent_comments'));
+        if($comments){
+            $comments->load('article', 'user');
+        }
+
+        $this->sidebar = view(env('THEME') . '.sidebar_article', 
+            compact('recentPosts', 'comments'));
+
     }
 }
