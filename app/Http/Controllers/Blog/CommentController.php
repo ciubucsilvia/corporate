@@ -35,6 +35,6 @@ class CommentController extends BaseController
         $post = $this->article_repository->getById($data['article_id']);
         $post->comments()->save($comment); 
 
-        return redirect()->route('$post', $post->slug);
+        return redirect()->route('articles.show', $post->slug);
     }
 }

@@ -3,10 +3,19 @@
 namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\ArticleCategoryRepository;
 use Illuminate\Http\Request;
 
-class ArticleCategoryController extends Controller
+class ArticleCategoryController extends BaseController
 {
+    protected $article_category_repository;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->article_category_repository = app(ArticleCategoryRepository::class);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -34,9 +43,16 @@ class ArticleCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+
+        $category = $this->article_category_repository->getBySlug($slug);
+        $articles = $category->articles()->paginate();
+
+        $this->content = view(env('THEME') . '.articles_content', 
+            compact('articles'));
+    
+        return $this->renderOutput();
     }
 
     /**

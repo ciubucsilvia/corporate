@@ -3,7 +3,7 @@
         <div id="comment-{{ $item->id }}" class="comment-container">
             <div class="comment-author vcard">
                 <img alt="" src="https://www.gravatar.com/avatar/{{$item->getHash()}}?d=mm&s=75" class="avatar" height="75" width="75" />
-                <cite class="fn">{{ $item->user->name or $item->name }}</cite>                 
+                <cite class="fn"> {{isset($item->user) ? $item->user->name : $item->name }}</cite>                 
             </div>
             <!-- .comment-author .vcard -->
             <div class="comment-meta commentmetadata">

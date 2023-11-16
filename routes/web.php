@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Website 
+// Website
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/portfolios', [PortfolioController::class, 'index'])
@@ -57,14 +57,14 @@ Route::prefix('admin')
     ->group(function() {
         Route::get('/', [AdminIndexController::class, 'index'])
             ->name('index');
-        
+
         Route::resource('users', UserController::class)
             ->only(['index', 'edit', 'update', 'destroy']);
         Route::resource('permissions', PermissionController::class);
         Route::resource('roles', RoleController::class);
 
         Route::resource('sliders', AdminSliderController::class);
-        
+
         Route::resource('portfolio', AdminPortfolioController::class);
         Route::resource('portfolio-categories', AdminPortfolioCategoryController::class);
 
@@ -83,4 +83,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

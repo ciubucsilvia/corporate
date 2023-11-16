@@ -7,6 +7,8 @@
         'recent_articles' => 3,
         'recent_comments' => 3,
         'recent_portfolios' => 3,
+        'sidebar_articles_count' => 3,
+        'articles_count' => 10,
         'sliders' => [
             'image' => [
                 'max' => [

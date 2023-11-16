@@ -32,6 +32,6 @@ class ArticleCategory extends Model
 
     public function articles()
     {
-        return $this->hasMany(Portfolio::class, 'category_id', 'id');
+        return $this->hasMany(Article::class, 'category_id', 'id');
     }
 }
